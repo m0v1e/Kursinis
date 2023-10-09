@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Search "{{ query }}" results:</h1>
+    </br>
+    {% if owners %}
+        <ul>
+            {% for owner in owners %}
+                <li>
+                    <a href="{% url 'owner' owner.id %}">{{ owner_name }} {{ owner_surname }}</a> ({{ owner_car }}) 
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Įrašų nerasta</p>
+    {% endif %}
+
+{% endblock %}

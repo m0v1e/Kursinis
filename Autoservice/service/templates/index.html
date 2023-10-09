@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Autoservisas UAB "Automobilio daktarai"</h1>
+    <p><strong>Automobilių skaičius servise:</strong> {{ car_count }}</p>
+    <ul>
+        <li><strong>Automobiliai laukiantys eilėje serviso darbams:</strong> {{ waiting_service }}</li>
+        <li><strong>Automobiliai inspektuojami servise:</strong> {{ inspection_service }}</li>
+        <li><strong>Automobiliai tvarkomi servise:</strong> {{ repair_service }}</li>
+        <li><strong>Automobiliai suremontuoti, galima atsiimti:</strong> {{ finish_service }}</li>
+    </ul>
+{% endblock %}

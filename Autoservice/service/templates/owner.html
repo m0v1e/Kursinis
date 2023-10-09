@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container owner">
+        <h3>{{owner.owner_name}} {{owner.owner_surname}}</h3>
+        <hr/>
+        <p>{{ owner.owner_car }}</p>
+    {% if carinfo.car_image %}
+        <img src="{{ car.car_image. url }}" style="margin-bottom: 20px;">
+    {% endif %}
+    </hr>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class='container pages'>
+    <nav arial-label="...">
+        {% if owners.has_other_pages %}
+            <ul class="pagination pagination-sm justify-content-end">
+                {% for i in owners.paginator.page_range %}
+                    {% if owners.number == i %}
+                        <li class="page-item active">
+                            <a class="page-link"> {{ i }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="'?page={{ i }}">{{ i }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </nav>
+    <h1>Savininkų sąrašas:</h1>
+    {% for owner in owners %}
+        <li><a href="{% url 'owner' owner.id %}">{{owner.owner_name}} {{owner.owner_surname}}</a></li>
+    {% endfor %}
+</div>
+
+{% endblock %}
