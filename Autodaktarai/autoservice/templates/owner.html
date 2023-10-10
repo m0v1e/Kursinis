@@ -6,7 +6,7 @@
     </br>
     <h5>Savininkas {{ owner.name }} {{ owner.surname }} servise yra užregistravęs šiuos automobilius:</h5>
     {% for car in owner.cars.all %}
-        <li>{{ owner.car }}</li> 
+        <li><a href="{% url 'car-detail' car.id %}">{{ owner.car }}</a></li> 
     {% endfor %}
     </div>
 {% endblock %}

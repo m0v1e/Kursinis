@@ -19,12 +19,16 @@ def index(request):
 
     finish_service = CarStatus.objects.filter(status='f').count()
 
+    num_visits = request.session.get('num_visits', 1)
+    request.session['num_visits'] = num_visits + 1
+
     context = {
         'car_count' : car_count,
         'waiting_service' : waiting_service,
         'inspection_service' : inspection_service,
         'repair_service' : repair_service,
-        'finish_service' : finish_service
+        'finish_service' : finish_service,
+        'num_visits' : num_visits,
     }
 
     return render(request, 'index.html', context=context)
