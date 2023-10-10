@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container owner">
+    <h4>{{ owner.name }} {{ owner.surname }}</h4>
+    </br>
+    <h5>Savininkas {{ owner.name }} {{ owner.surname }} servise yra užregistravęs šiuos automobilius:</h5>
+    {% for car in owner.cars.all %}
+        <li>{{ owner.car }}</li> 
+    {% endfor %}
+    </div>
+{% endblock %}

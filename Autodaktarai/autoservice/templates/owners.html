@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Automobilių savininkai:</h1>
+        {% for owner in owners %}
+            <li><a href="{% url 'owner' owner.id %}">{{owner.name}} {{owner.surname}}</a></li>
+        {% endfor %}
+        <div class="container puslapiai">
+            <nav aria-label="...">
+                {% if owners.has_other_pages %}
+                    <ul class="pagination pagination-sm justify-content-end">
+                        {% for i in owners.paginator.page_range %}
+                            {% if owners.number == i %}
+                                <li class="page-item active">
+                                    <a class="page-link">{{ i }}</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </nav>
+        </div>
+{% endblock %}

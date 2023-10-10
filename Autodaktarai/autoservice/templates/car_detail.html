@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% load static %}
+    <h1>{{ carinfo.car }}</h1>
+
+    {% if carinfo.car_image %}
+        <img src="{{ carinfo.car_image.url }}" style="margin-bottom: 20px;">
+    {% endif %}
+    <p><strong>Savininkas: </strong><a href="{% url 'owner' carinfo.car_owner.pk %}">{{ carinfo.car_owner }}</a></p>
+    <p><strong>Problema:</strong> {{ carinfo.summary }}</p>
+    <p><strong>Automobilio numeriai:</strong> {{ carinfo.plate }}</p>
+    <p><strong>Automobilio degalų rūšis:</strong> {{ carinfo.fuel_type }}</p>
+    <p><strong>Automobilio variklio darbinis tūris:</strong> {{ carinfo.engine }}</p>
+    <p><strong>Automobilio VIN kodas:</strong> {{ carinfo.vin }}</p>
+    <p><strong>Automobilį aptarnaujantis darbuotojas:</strong> {{ carinfo.mechanic }}</p> 
+
+    <div style="margin-left:20px;margin-top:20px">
+    <h4>Automobilio statusas:</h4>
+
+    {% for status in carinfo.carstatus_set.all %}
+        <hr>
+        <p><strong>Statusas: </strong> {{ status.get_status_display }} </p>
+        <p><strong>Planuojama darbų pabaigos data:</strong> {{ status.due_finish }}</p>
+    {% endfor %}
+    </div>
+{% endblock %}
