@@ -84,3 +84,21 @@ class CarStatus(models.Model):
         if self.due_finish and date.today().replace(tzinfo=utc) > self.due_finish.replace(tzinfo=utc):
             return True
         return False
+    
+class CarReview(models.Model):
+    car = models.ForeignKey('Carinfo', on_delete=models.SET_NULL, null=True, blank=True)
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    comment = models.TextField("Gedimas", max_length=150)
+
+    class Meta:
+        verbose_name = 'Gedimas'
+        verbose_name_plural = 'Gedimai'
+        ordering = ['-date_created']
+
+class Profilis(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    nuotrauka = models.ImageField(default='img/no-image.png', upload_to='profile_pics')
+
+    def __str__(self):
+        return f'{self.user.username} profilis'

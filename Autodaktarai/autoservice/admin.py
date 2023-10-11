@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Mechanic, Owner, CarInfo, CarStatus
+from .models import Mechanic, Owner, CarInfo, CarStatus, CarReview, User, Profilis
 
 class CarStatusInline(admin.TabularInline):
     model = CarStatus
@@ -25,9 +25,14 @@ class CarStatusAdmin(admin.ModelAdmin):
         ('Suruošta', {'fields' : ('status', 'due_finish', 'owner')})
     )
 
+class CarReviewAdmin(admin.ModelAdmin):
+    list_display = ('car', 'date_created', 'owner', 'comment')
+
 # Register your models here.
 
 admin.site.register(Mechanic)
 admin.site.register(Owner, OwnerAdmin)
 admin.site.register(CarInfo, CarInfoAdmin)
 admin.site.register(CarStatus, CarStatusAdmin)
+admin.site.register(CarReview, CarReviewAdmin)
+admin.site.register(Profilis)

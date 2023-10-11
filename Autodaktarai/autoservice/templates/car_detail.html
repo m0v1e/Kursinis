@@ -24,4 +24,30 @@
         <p><strong>Planuojama darbų pabaigos data:</strong> {{ status.due_finish }}</p>
     {% endfor %}
     </div>
+
+    {% if user.is_authenticated %}
+    <div class="fieldWrapper">
+        <hr><br/>
+        <h4>Palikite informaciją apie gedimą:</h4>
+        <form action="" method="post">
+        {% csrf_token %}
+        {{ form.comment }}</br>
+        <input type="submit" value="Išsaugoti">
+        </form>
+    </div>
+    {% endif %}
+
+    <div>
+        </br>
+        <h4>Gedimai:</h4>
+            {% if carinfo.carreview_set.all %}
+                {% for review in carinfo.carreview_set.all %}
+                    <hr>
+                    <strong>{{ review.owner }}</strong>, <em>{{ review.date_created}}</em>
+                    <p>{{ review.comment }}</p>
+                {% endfor %}
+            {% else %}
+                <p>Automobilis neturi įrašų apie gedimus</p>
+        {% endif %}
+    </div>
 {% endblock %}
