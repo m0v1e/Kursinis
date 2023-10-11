@@ -15,14 +15,14 @@ class CarInfoAdmin(admin.ModelAdmin):
     inlines = [CarStatusInline]
 
 class CarStatusAdmin(admin.ModelAdmin):
-    list_display = ('car', 'status', 'due_finish')
+    list_display = ('car', 'status', 'owner', 'due_finish')
     list_editable = ('status', 'due_finish')
     list_filter = ('status', 'due_finish')
     search_fields = ('id', 'car__car')
 
     fieldsets = (
         ('Bendra', {'fields' : ('uuid', 'car')}),
-        ('Suruošta', {'fields' : ('status', 'due_finish')})
+        ('Suruošta', {'fields' : ('status', 'due_finish', 'owner')})
     )
 
 # Register your models here.

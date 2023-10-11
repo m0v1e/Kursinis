@@ -3,6 +3,9 @@
 {% block content %}
     <div class="container owner">
     <h4>{{ owner.name }} {{ owner.surname }}</h4>
+    <hr/>
+    <p>{{ owner.description | safe }}</p>
+    </hr>
     </br>
     <h5>Savininkas {{ owner.name }} {{ owner.surname }} servise yra užregistravęs šiuos automobilius:</h5>
     {% for car in owner.cars.all %}

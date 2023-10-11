@@ -1,5 +1,10 @@
 from django.db import models
 import uuid
+from django.contrib.auth.models import User
+from datetime import date
+import pytz
+utc=pytz.UTC
+from tinymce.models import HTMLField
 
 # Create your models here.
 
@@ -40,6 +45,7 @@ class Owner(models.Model):
     name = models.CharField('Automobilio savininko vardas', max_length=20)
     surname = models.CharField('Automobilio savininko pavarde', max_length=20)
     car = models.ForeignKey('CarInfo', on_delete=models.SET_NULL, null=True, blank=True,)
+    description = HTMLField()
 
     def __str__(self):
         return f'{self.name} {self.surname}'
@@ -52,6 +58,7 @@ class CarStatus(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unikalus ID kiekvienam automobiliui')
     car = models.ForeignKey('CarInfo', on_delete=models.SET_NULL, null=True)
     due_finish = models.DateField('Automobilis planuojamas suremontuoti', null=True, blank=True)
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     CAR_STATUS = (
         ('w', 'Laukia darbų pradžios'),
@@ -72,3 +79,8 @@ class CarStatus(models.Model):
 
     def __str__(self):
         return f'{self.id} ({self.car})'
+    @property
+    def is_overdue(self):
+        if self.due_finish and date.today().replace(tzinfo=utc) > self.due_finish.replace(tzinfo=utc):
+            return True
+        return False

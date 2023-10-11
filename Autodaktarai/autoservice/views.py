@@ -1,12 +1,41 @@
 from typing import Any
-from django.shortcuts import render, get_object_or_404
+from django.db.models.query import QuerySet
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Mechanic, Owner, CarInfo, CarStatus
 from django.views import generic
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import User
+from django.views.decorators.csrf import csrf_protect
+from django.contrib import messages
 
 # Create your views here.
+
+@csrf_protect
+def register(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        password2 = request.POST['password2']
+        if password == password2:
+            if User.objects.filter(username=username).exists():
+                messages.error(request, f'Vartotojo vardas {username} užimtas!')
+                return redirect('register')
+            else:
+                if User.objects.filter(email=email).exists():
+                    messages.error(request, f'Vartotojas su el. pa6tu {email} jau užregistruotas')
+                    return redirect('register')
+                else:
+                    User.objects.create_user(username=username, email=email, password=password)
+                    messages.info(request, f'Vartotojas {username} sėkmingai užregistruotas')
+                    return redirect('login')
+        else:
+            messages.error(request, 'Slaptažodžiai nesutampa!')
+            return redirect('register')
+    return render(request, 'register.html')
 
 def index(request):
     car_count = CarStatus.objects.all().count()
@@ -70,3 +99,13 @@ class CarListView(generic.ListView):
 class CarDetailView(generic.DetailView):
     model = CarInfo
     template_name = 'car_detail.html'
+
+
+class OwnedCarsByUserListView(LoginRequiredMixin, generic.ListView):
+    model = CarStatus
+    template_name = 'user_cars.html'
+    paginate_by = 10
+
+
+    def get_queryset(self):
+        return CarStatus.objects.filter(owner=self.request.user).order_by('due_finish')
