@@ -6,7 +6,8 @@
     {% if carstatus_list %}
     <ul>
 
-        {% for carstat in carstatus_list %} 
+        {% for carstat in carstatus_list %}
+            <img class="rounded-circle" src="{{carstat.owner.profilis.nuotrauka.url}}">
         <li class="{% if carstat.is_overdue %}text-danger{% endif %}">
             <a href="{% url 'car-detail' carstat.car.pk %}">{{carstat.carinfo.car}}</a> ({{ carstat.due_finish }})        
         </li>
